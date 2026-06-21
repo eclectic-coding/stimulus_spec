@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Specify your gem's dependencies in stimulus_spec.gemspec
+gemspec
+
+gem "rake", "~> 13.0"
+
+
+group :development do
+  gem "bundler-audit"
+  gem "irb"
+  gem "rubocop", "~> 1.21"
+  gem "rubocop-rake"
+end
+
+group :test do
+  gem "rspec", "~> 3.0"
+  gem "simplecov", require: false
+  gem "simplecov_json_formatter", require: false
+end
