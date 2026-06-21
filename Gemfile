@@ -7,7 +7,6 @@ gemspec
 
 gem "rake", "~> 13.0"
 
-
 group :development do
   gem "bundler-audit"
   gem "irb"
