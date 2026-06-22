@@ -20,3 +20,10 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+Naming/PredicatePrefix:
+  AllowedMethods:
+    - have_stimulus_controller
+    - have_stimulus_action
+    - have_stimulus_target
+    - does_not_match?
