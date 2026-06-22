@@ -11,14 +11,6 @@ RSpec matchers for [Stimulus](https://github.com/hotwired/stimulus-rails): contr
 
 ---
 
-## 0.3.0 — Outlets and Capybara Foundation
-
-- `have_stimulus_outlet("search", "results")` — assert `data-search-results-outlet` exists
-- `have_stimulus_outlet("search", "results", "#results-list")` — assert selector value
-- Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target` using `has_css?` / `has_no_css?` with `wait: 0`
-- Auto-include `StimulusSpec::Capybara::Matchers` into `type: :system` and `type: :feature` (gated on `capybara`)
-
----
 
 ## 0.4.0 — Capybara Values and Rich Failures
 
