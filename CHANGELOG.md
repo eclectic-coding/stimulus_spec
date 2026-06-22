@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `have_stimulus_outlet(controller, outlet)` matcher — asserts `data-{controller}-{outlet}-outlet` exists
+- `have_stimulus_outlet(controller, outlet, selector)` matcher — asserts attribute equals the CSS selector value
+
 ## [0.3.0] - 2026-06-22
 
 ### Added

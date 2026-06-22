@@ -8,7 +8,7 @@
 
 Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired/stimulus-rails) — stop hand-rolling `data-controller` assertions and test your Stimulus wiring with expressive, purpose-built matchers.
 
-- **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`, `have_stimulus_class`
+- **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`, `have_stimulus_class`, `have_stimulus_outlet`
 - **Auto-included** — zero setup required when `stimulus-rails` is in your bundle
 - **Configurable** — disable auto-include when you need manual control
 
@@ -24,6 +24,7 @@ Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) �
   - [have\_stimulus\_target](#have_stimulus_target)
   - [have\_stimulus\_value](#have_stimulus_value)
   - [have\_stimulus\_class](#have_stimulus_class)
+  - [have\_stimulus\_outlet](#have_stimulus_outlet)
 - [Example](#example)
 - [Relationship to turbo\_rspec](#relationship-to-turbo_rspec)
 - [Contributing](#contributing)
@@ -142,6 +143,21 @@ expect(response).to have_stimulus_class("search", "loading", "opacity-50")
 
 # Negation
 expect(response).not_to have_stimulus_class("search", "loading")
+```
+
+### `have_stimulus_outlet`
+
+Assert that rendered HTML contains a `data-{controller}-{outlet}-outlet` attribute with a CSS selector.
+
+```ruby
+# Assert the outlet attribute exists
+expect(response).to have_stimulus_outlet("search", "results")
+
+# Assert a specific selector
+expect(response).to have_stimulus_outlet("search", "results", "#results-list")
+
+# Negation
+expect(response).not_to have_stimulus_outlet("search", "results")
 ```
 
 [Back to top](#stimulusspec)
