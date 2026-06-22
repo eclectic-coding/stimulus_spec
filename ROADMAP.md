@@ -15,15 +15,11 @@ RSpec matchers for [Stimulus](https://github.com/hotwired/stimulus-rails): contr
 
 First functional release. Enough for an interested user to install and start testing Stimulus wiring immediately.
 
-- `StimulusSpec::Configuration` with `auto_include` (default `true`)
-- `StimulusSpec.configure { |c| c.auto_include = false }`
-- Auto-include `StimulusSpec::Matchers` into `type: :request` and `type: :controller` example groups (gated on `stimulus-rails` in the bundle)
 - `have_stimulus_controller("hello")` — asserts `[data-controller~="hello"]` in response HTML
 - `have_stimulus_action("click->hello#greet")` — full descriptor (`~=`) and shorthand without event (`*=`)
 - `have_stimulus_target("hello", "name")` — asserts `[data-hello-target~="name"]`
 - `StimulusSpec::Matchers` factory module with `def have_stimulus_*` methods
-- SimpleCov minimum coverage enforced: 100% line and branch (per PR, from day one)
-- Full RSpec test coverage for all three matchers + configuration
+- Full RSpec test coverage for all three matchers
 
 ---
 

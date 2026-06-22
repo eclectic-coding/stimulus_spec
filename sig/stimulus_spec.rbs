@@ -1,4 +1,17 @@
 module StimulusSpec
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  def self.configuration: () -> Configuration
+  def self.configure: () { (Configuration) -> void } -> void
+  def self.reset_configuration!: () -> Configuration
+  def self.install_rspec_integration: (untyped config) -> void
+
+  class Configuration
+    attr_accessor auto_include: bool
+
+    def initialize: () -> void
+  end
+
+  module Matchers
+  end
 end
