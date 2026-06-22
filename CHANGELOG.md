@@ -16,3 +16,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `have_stimulus_controller(name)` matcher — asserts `[data-controller~="name"]` via Nokogiri
 - `have_stimulus_action(descriptor)` matcher — full descriptor (`~=`) and shorthand without event (`*=`)
 - `have_stimulus_target(controller, target)` matcher — asserts `[data-{controller}-target~="target"]`
+
+[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/main...HEAD
