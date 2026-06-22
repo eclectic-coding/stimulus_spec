@@ -6,3 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Added
+
+- `StimulusSpec::Configuration` class with `auto_include` attribute (default `true`)
+- `StimulusSpec.configure`, `.configuration`, and `.reset_configuration!` class methods
+- `StimulusSpec.install_rspec_integration` — auto-includes matchers into `type: :request`, `:controller`, `:system`, and `:feature` example groups (gated on `stimulus-rails`)
+- `RSpec.configure` hook at load time (guarded by `defined?(RSpec)`)

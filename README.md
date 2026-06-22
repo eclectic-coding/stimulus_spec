@@ -8,11 +8,12 @@
 
 Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired/stimulus-rails) — stop hand-rolling `data-controller` assertions and test your Stimulus wiring with expressive, purpose-built matchers.
 
-- **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`, `have_stimulus_class`, `have_stimulus_outlet`
-- **System/feature specs** — Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`
 - **Auto-included** — zero setup required when `stimulus-rails` is in your bundle
+- **Configurable** — disable auto-include when you need manual control
 
 Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) — together they cover the full Hotwire testing stack.
+
+> **Note:** This gem is under active development. Matchers (`have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, etc.) are coming in upcoming releases. See the [ROADMAP](ROADMAP.md) for planned features.
 
 ## Installation
 
@@ -28,10 +29,7 @@ end
 
 ### Rails + stimulus-rails (automatic)
 
-No setup needed. When `stimulus-rails` is in your bundle:
-
-- `StimulusSpec::Matchers` is automatically included in all `type: :request` and `type: :controller` example groups
-- `StimulusSpec::Capybara::Matchers` is automatically included in all `type: :system` and `type: :feature` example groups when `capybara` is also present
+No setup needed. When `stimulus-rails` is in your bundle, `StimulusSpec::Matchers` is automatically included in `type: :request`, `:controller`, `:system`, and `:feature` example groups.
 
 ### Manual include
 
@@ -40,8 +38,7 @@ For non-Rails projects or custom contexts, include the matchers explicitly:
 ```ruby
 # spec/spec_helper.rb
 RSpec.configure do |config|
-  config.include StimulusSpec::Matchers                 # request specs
-  config.include StimulusSpec::Capybara::Matchers       # system/feature specs
+  config.include StimulusSpec::Matchers
 end
 ```
 
@@ -51,136 +48,6 @@ end
 # spec/support/stimulus_spec.rb
 StimulusSpec.configure do |config|
   config.auto_include = false  # disable automatic inclusion
-end
-```
-
-## Matchers
-
-### `have_stimulus_controller`
-
-Assert that rendered HTML contains a `data-controller` attribute with the given controller name.
-
-```ruby
-# Request specs — asserts in rendered HTML response
-expect(response).to have_stimulus_controller("hello")
-expect(response).to have_stimulus_controller("hello", "clipboard")
-
-# System/feature specs — asserts on the live Capybara page
-expect(page).to have_stimulus_controller("hello")
-
-# Negation
-expect(response).not_to have_stimulus_controller("missing")
-```
-
-Uses space-separated token matching, so it works correctly when multiple controllers are declared on a single element.
-
-### `have_stimulus_action`
-
-Assert that rendered HTML contains a `data-action` attribute with the given action descriptor.
-
-```ruby
-# Full descriptor
-expect(response).to have_stimulus_action("click->hello#greet")
-
-# Shorthand — matches any event
-expect(response).to have_stimulus_action("hello#greet")
-
-# System/feature specs
-expect(page).to have_stimulus_action("click->hello#greet")
-
-# Negation
-expect(response).not_to have_stimulus_action("hello#disconnect")
-```
-
-### `have_stimulus_target`
-
-Assert that rendered HTML contains a `data-{controller}-target` attribute with the given target name.
-
-```ruby
-# Request specs
-expect(response).to have_stimulus_target("hello", "name")
-expect(response).to have_stimulus_target("hello", "output")
-
-# System/feature specs
-expect(page).to have_stimulus_target("hello", "name")
-
-# Negation
-expect(response).not_to have_stimulus_target("hello", "missing")
-```
-
-### `have_stimulus_value`
-
-Assert that rendered HTML contains a `data-{controller}-{name}-value` attribute, optionally with a specific value.
-
-```ruby
-# Assert the value attribute exists
-expect(response).to have_stimulus_value("search", "url")
-
-# Assert a specific value
-expect(response).to have_stimulus_value("search", "url", "/results")
-
-# System/feature specs
-expect(page).to have_stimulus_value("search", "url", "/results")
-
-# Negation
-expect(response).not_to have_stimulus_value("search", "url")
-```
-
-### `have_stimulus_class`
-
-Assert that rendered HTML contains a `data-{controller}-{name}-class` attribute.
-
-```ruby
-# Assert the class attribute exists
-expect(response).to have_stimulus_class("search", "loading", "opacity-50")
-
-# Negation
-expect(response).not_to have_stimulus_class("search", "loading")
-```
-
-### `have_stimulus_outlet`
-
-Assert that rendered HTML contains a `data-{controller}-{outlet}-outlet` attribute with a CSS selector.
-
-```ruby
-# Assert the outlet attribute exists
-expect(response).to have_stimulus_outlet("search", "results")
-
-# Assert a specific selector
-expect(response).to have_stimulus_outlet("search", "results", "#results-list")
-
-# Negation
-expect(response).not_to have_stimulus_outlet("search", "results")
-```
-
-## Example: request spec
-
-```ruby
-RSpec.describe "Search", type: :request do
-  describe "GET /search" do
-    it "wires up the search controller with values" do
-      get search_path
-
-      expect(response).to have_stimulus_controller("search")
-      expect(response).to have_stimulus_action("input->search#query")
-      expect(response).to have_stimulus_target("search", "input")
-      expect(response).to have_stimulus_value("search", "url", "/results")
-    end
-  end
-end
-```
-
-## Example: system spec
-
-```ruby
-RSpec.describe "Search", type: :system do
-  it "has the search controller wired up" do
-    visit search_path
-
-    expect(page).to have_stimulus_controller("search")
-    expect(page).to have_stimulus_action("input->search#query")
-    expect(page).to have_stimulus_target("search", "input")
-  end
 end
 ```
 
