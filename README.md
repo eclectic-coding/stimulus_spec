@@ -9,7 +9,7 @@
 Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired/stimulus-rails) — stop hand-rolling `data-controller` assertions and test your Stimulus wiring with expressive, purpose-built matchers.
 
 - **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`, `have_stimulus_class`, `have_stimulus_outlet`
-- **System/feature specs** — Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`
+- **System/feature specs** — Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`
 - **Auto-included** — zero setup required when `stimulus-rails` is in your bundle
 - **Configurable** — disable auto-include when you need manual control
 

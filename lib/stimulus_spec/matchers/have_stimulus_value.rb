@@ -12,11 +12,12 @@ module StimulusSpec
 
       def matches?(subject)
         @body = extract_body(subject)
-        element = document.at_css("[#{@attr}]")
-        return false unless element
+        @doc = Nokogiri::HTML5.fragment(@body)
+        @element = @doc.at_css("[#{@attr}]")
+        return false unless @element
 
         if @expected
-          @actual = element[@attr]
+          @actual = @element[@attr]
           @actual == @expected.to_s
         else
           true
@@ -29,9 +30,9 @@ module StimulusSpec
 
       def failure_message
         if @expected && @actual
-          "expected #{@attr} to be \"#{@expected}\" but was \"#{@actual}\""
+          "expected #{@attr} to be \"#{@expected}\" but was \"#{@actual}\"\n  on: #{@element.to_html}"
         else
-          "expected to find an element with #{@attr} but found none in:\n#{@body}"
+          "expected to find an element with #{@attr} but found none in:\n#{snippet}"
         end
       end
 
@@ -53,8 +54,11 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
-      def document
-        Nokogiri::HTML5.fragment(@body)
+      def snippet
+        elements = @doc.css("[data-controller]")
+        return @body if elements.empty?
+
+        elements.map(&:to_html).join("\n")
       end
     end
 

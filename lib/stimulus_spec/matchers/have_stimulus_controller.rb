@@ -9,7 +9,9 @@ module StimulusSpec
 
       def matches?(subject)
         @body = extract_body(subject)
-        !document.at_css("[data-controller~='#{@name}']").nil?
+        @doc = Nokogiri::HTML5.fragment(@body)
+        @found_controllers = @doc.css("[data-controller]").flat_map { |el| el["data-controller"].split }
+        !@doc.at_css("[data-controller~='#{@name}']").nil?
       end
 
       def does_not_match?(subject)
@@ -17,7 +19,12 @@ module StimulusSpec
       end
 
       def failure_message
-        "expected to find an element with data-controller=\"#{@name}\" but found none in:\n#{@body}"
+        msg = "expected to find an element with data-controller=\"#{@name}\""
+        if @found_controllers.any?
+          msg += "\n  found controllers: #{@found_controllers.uniq.map { |c| "\"#{c}\"" }.join(", ")}"
+        end
+        msg += "\n  in:\n#{snippet}"
+        msg
       end
 
       def failure_message_when_negated
@@ -34,8 +41,11 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
-      def document
-        Nokogiri::HTML5.fragment(@body)
+      def snippet
+        elements = @doc.css("[data-controller]")
+        return @body if elements.empty?
+
+        elements.map(&:to_html).join("\n")
       end
     end
 
