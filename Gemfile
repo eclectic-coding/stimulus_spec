@@ -9,7 +9,6 @@ gem "rake", "~> 13.0"
 
 group :development do
   gem "bundler-audit"
-  gem "irb"
   gem "rubocop", "~> 1.21"
   gem "rubocop-rake"
 end
