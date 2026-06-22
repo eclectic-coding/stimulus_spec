@@ -41,12 +41,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusClass do
   end
 
   describe "#failure_message" do
-    it "shows actual vs expected on class mismatch" do
+    it "shows actual vs expected on class mismatch with element HTML" do
       html = '<div data-search-loading-class="hidden"></div>'
       matcher = have_stimulus_class("search", "loading", "opacity-50")
       matcher.matches?(html)
       expect(matcher.failure_message).to include("opacity-50")
       expect(matcher.failure_message).to include("hidden")
+      expect(matcher.failure_message).to include("on:")
     end
 
     it "shows the HTML when attribute is missing" do
@@ -55,6 +56,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusClass do
       matcher.matches?(html)
       expect(matcher.failure_message).to include("data-search-loading-class")
       expect(matcher.failure_message).to include("<div></div>")
+    end
+
+    it "shows relevant controller elements when attribute is missing" do
+      html = '<div data-controller="search"></div>'
+      matcher = have_stimulus_class("search", "loading")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include("data-controller")
     end
   end
 

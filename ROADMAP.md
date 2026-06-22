@@ -11,17 +11,6 @@ RSpec matchers for [Stimulus](https://github.com/hotwired/stimulus-rails): contr
 
 ---
 
-
-## 0.4.0 — Capybara Values and Rich Failures
-
-- Capybara `have_stimulus_value` matcher
-- Enhanced failure messages across all matchers:
-  - List all `data-controller` values found in the document on controller mismatch
-  - Show actual vs expected value on value/class/outlet mismatch
-  - Include relevant HTML snippet for context
-
----
-
 ## 0.5.0 — Documentation and Polish
 
 - Full YARD documentation on all public methods and classes

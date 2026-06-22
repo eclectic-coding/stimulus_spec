@@ -44,6 +44,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusTarget do
       expect(matcher.failure_message).to include("name")
       expect(matcher.failure_message).to include("<input>")
     end
+
+    it "lists found targets when others exist" do
+      html = '<input data-hello-target="output">'
+      matcher = have_stimulus_target("hello", "name")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include('"output"')
+    end
   end
 
   describe "#failure_message_when_negated" do

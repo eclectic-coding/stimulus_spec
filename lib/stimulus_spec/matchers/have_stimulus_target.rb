@@ -6,11 +6,13 @@ module StimulusSpec
       def initialize(controller, target)
         @controller = controller.to_s
         @target = target.to_s
+        @attr = "data-#{@controller}-target"
       end
 
       def matches?(subject)
         @body = extract_body(subject)
-        !document.at_css("[data-#{@controller}-target~='#{@target}']").nil?
+        @doc = Nokogiri::HTML5.fragment(@body)
+        !@doc.at_css("[#{@attr}~='#{@target}']").nil?
       end
 
       def does_not_match?(subject)
@@ -18,11 +20,15 @@ module StimulusSpec
       end
 
       def failure_message
-        "expected to find an element with data-#{@controller}-target=\"#{@target}\" but found none in:\n#{@body}"
+        found_targets = @doc.css("[#{@attr}]").flat_map { |el| el[@attr].split }
+        msg = "expected to find an element with #{@attr}=\"#{@target}\""
+        msg += "\n  found targets: #{found_targets.uniq.map { |t| "\"#{t}\"" }.join(", ")}" if found_targets.any?
+        msg += "\n  in:\n#{snippet}"
+        msg
       end
 
       def failure_message_when_negated
-        "expected not to find an element with data-#{@controller}-target=\"#{@target}\" but found one"
+        "expected not to find an element with #{@attr}=\"#{@target}\" but found one"
       end
 
       def description
@@ -35,8 +41,11 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
-      def document
-        Nokogiri::HTML5.fragment(@body)
+      def snippet
+        elements = @doc.css("[#{@attr}]")
+        return @body if elements.empty?
+
+        elements.map(&:to_html).join("\n")
       end
     end
 

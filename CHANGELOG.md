@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `have_stimulus_outlet(controller, outlet, selector)` matcher — asserts attribute equals the CSS selector value
 - Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target` for system/feature specs
 - Auto-include `StimulusSpec::Capybara::Matchers` into `type: :system` and `type: :feature` (gated on `capybara`)
+- Capybara `have_stimulus_value` matcher (existence and equality modes)
+- Enhanced failure messages: controller mismatch lists all found controllers, value/class/outlet mismatch shows actual vs expected with element HTML, all matchers include relevant HTML snippets
 
 ## [0.3.0] - 2026-06-22
 

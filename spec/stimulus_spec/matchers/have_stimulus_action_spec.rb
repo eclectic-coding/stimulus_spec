@@ -53,6 +53,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusAction do
       expect(matcher.failure_message).to include("click->hello#greet")
       expect(matcher.failure_message).to include("<button></button>")
     end
+
+    it "lists found actions when others exist" do
+      html = '<button data-action="click->search#query"></button>'
+      matcher = have_stimulus_action("click->hello#greet")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include('"click->search#query"')
+    end
   end
 
   describe "#failure_message_when_negated" do

@@ -9,10 +9,11 @@ module StimulusSpec
 
       def matches?(subject)
         @body = extract_body(subject)
+        @doc = Nokogiri::HTML5.fragment(@body)
         if @descriptor.include?("->")
-          !document.at_css("[data-action~='#{@descriptor}']").nil?
+          !@doc.at_css("[data-action~='#{@descriptor}']").nil?
         else
-          !document.at_css("[data-action*='#{@descriptor}']").nil?
+          !@doc.at_css("[data-action*='#{@descriptor}']").nil?
         end
       end
 
@@ -21,7 +22,11 @@ module StimulusSpec
       end
 
       def failure_message
-        "expected to find an element with data-action=\"#{@descriptor}\" but found none in:\n#{@body}"
+        found_actions = @doc.css("[data-action]").flat_map { |el| el["data-action"].split }
+        msg = "expected to find an element with data-action=\"#{@descriptor}\""
+        msg += "\n  found actions: #{found_actions.uniq.map { |a| "\"#{a}\"" }.join(", ")}" if found_actions.any?
+        msg += "\n  in:\n#{snippet}"
+        msg
       end
 
       def failure_message_when_negated
@@ -38,8 +43,11 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
-      def document
-        Nokogiri::HTML5.fragment(@body)
+      def snippet
+        elements = @doc.css("[data-action]")
+        return @body if elements.empty?
+
+        elements.map(&:to_html).join("\n")
       end
     end
 
