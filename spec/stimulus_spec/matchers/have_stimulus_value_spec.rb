@@ -41,12 +41,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusValue do
   end
 
   describe "#failure_message" do
-    it "shows actual vs expected on value mismatch" do
+    it "shows actual vs expected on value mismatch with element HTML" do
       html = '<div data-search-url-value="/api/search"></div>'
       matcher = have_stimulus_value("search", "url", "/results")
       matcher.matches?(html)
       expect(matcher.failure_message).to include("/results")
       expect(matcher.failure_message).to include("/api/search")
+      expect(matcher.failure_message).to include("on:")
     end
 
     it "shows the HTML when attribute is missing" do
@@ -55,6 +56,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusValue do
       matcher.matches?(html)
       expect(matcher.failure_message).to include("data-search-url-value")
       expect(matcher.failure_message).to include("<div></div>")
+    end
+
+    it "shows relevant controller elements when attribute is missing" do
+      html = '<div data-controller="search"></div>'
+      matcher = have_stimulus_value("search", "url")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include("data-controller")
     end
   end
 

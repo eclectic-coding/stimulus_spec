@@ -43,6 +43,14 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusController do
       expect(matcher.failure_message).to include("hello")
       expect(matcher.failure_message).to include("<div></div>")
     end
+
+    it "lists found controllers when others exist" do
+      html = '<div data-controller="search clipboard"></div>'
+      matcher = have_stimulus_controller("hello")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include('"search"')
+      expect(matcher.failure_message).to include('"clipboard"')
+    end
   end
 
   describe "#failure_message_when_negated" do

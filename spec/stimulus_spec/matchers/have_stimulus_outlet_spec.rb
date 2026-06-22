@@ -41,12 +41,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusOutlet do
   end
 
   describe "#failure_message" do
-    it "shows actual vs expected on selector mismatch" do
+    it "shows actual vs expected on selector mismatch with element HTML" do
       html = '<div data-search-results-outlet=".results"></div>'
       matcher = have_stimulus_outlet("search", "results", "#results-list")
       matcher.matches?(html)
       expect(matcher.failure_message).to include("#results-list")
       expect(matcher.failure_message).to include(".results")
+      expect(matcher.failure_message).to include("on:")
     end
 
     it "shows the HTML when attribute is missing" do
@@ -55,6 +56,13 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusOutlet do
       matcher.matches?(html)
       expect(matcher.failure_message).to include("data-search-results-outlet")
       expect(matcher.failure_message).to include("<div></div>")
+    end
+
+    it "shows relevant controller elements when attribute is missing" do
+      html = '<div data-controller="search"></div>'
+      matcher = have_stimulus_outlet("search", "results")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include("data-controller")
     end
   end
 
