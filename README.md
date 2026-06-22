@@ -8,7 +8,7 @@
 
 Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired/stimulus-rails) — stop hand-rolling `data-controller` assertions and test your Stimulus wiring with expressive, purpose-built matchers.
 
-- **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`
+- **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`, `have_stimulus_class`
 - **Auto-included** — zero setup required when `stimulus-rails` is in your bundle
 - **Configurable** — disable auto-include when you need manual control
 
@@ -22,6 +22,8 @@ Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) �
   - [have\_stimulus\_controller](#have_stimulus_controller)
   - [have\_stimulus\_action](#have_stimulus_action)
   - [have\_stimulus\_target](#have_stimulus_target)
+  - [have\_stimulus\_value](#have_stimulus_value)
+  - [have\_stimulus\_class](#have_stimulus_class)
 - [Example](#example)
 - [Relationship to turbo\_rspec](#relationship-to-turbo_rspec)
 - [Contributing](#contributing)
@@ -110,6 +112,36 @@ expect(response).to have_stimulus_target("hello", "output")
 
 # Negation
 expect(response).not_to have_stimulus_target("hello", "missing")
+```
+
+### `have_stimulus_value`
+
+Assert that rendered HTML contains a `data-{controller}-{name}-value` attribute, optionally with a specific value.
+
+```ruby
+# Assert the value attribute exists
+expect(response).to have_stimulus_value("search", "url")
+
+# Assert a specific value
+expect(response).to have_stimulus_value("search", "url", "/results")
+
+# Negation
+expect(response).not_to have_stimulus_value("search", "url")
+```
+
+### `have_stimulus_class`
+
+Assert that rendered HTML contains a `data-{controller}-{name}-class` attribute, optionally with a specific class.
+
+```ruby
+# Assert the class attribute exists
+expect(response).to have_stimulus_class("search", "loading")
+
+# Assert a specific class value
+expect(response).to have_stimulus_class("search", "loading", "opacity-50")
+
+# Negation
+expect(response).not_to have_stimulus_class("search", "loading")
 ```
 
 [Back to top](#stimulusspec)
