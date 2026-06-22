@@ -11,15 +11,6 @@ RSpec matchers for [Stimulus](https://github.com/hotwired/stimulus-rails): contr
 
 ---
 
-## 0.2.0 — Values and Classes
-
-- `have_stimulus_value("search", "url")` — assert `data-search-url-value` attribute exists
-- `have_stimulus_value("search", "url", "/results")` — assert attribute equals expected value
-- `have_stimulus_class("search", "loading")` — assert `data-search-loading-class` exists
-- `have_stimulus_class("search", "loading", "opacity-50")` — assert attribute equals expected class
-
----
-
 ## 0.3.0 — Outlets and Capybara Foundation
 
 - `have_stimulus_outlet("search", "results")` — assert `data-search-results-outlet` exists

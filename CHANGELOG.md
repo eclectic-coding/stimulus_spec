@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `have_stimulus_value(controller, name)` matcher — asserts `data-{controller}-{name}-value` exists
+- `have_stimulus_value(controller, name, expected)` matcher — asserts attribute equals expected value
+- `have_stimulus_class(controller, name)` matcher — asserts `data-{controller}-{name}-class` exists
+- `have_stimulus_class(controller, name, expected)` matcher — asserts attribute equals expected class
+
 ## [0.1.0] - 2026-06-22
 
 ### Added
