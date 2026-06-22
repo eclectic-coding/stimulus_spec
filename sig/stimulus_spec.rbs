@@ -74,4 +74,39 @@ module StimulusSpec
       def description: () -> String
     end
   end
+
+  module Capybara
+    module Matchers
+      def have_stimulus_controller: (String name) -> HaveStimulusController
+      def have_stimulus_action: (String descriptor) -> HaveStimulusAction
+      def have_stimulus_target: (String controller, String target) -> HaveStimulusTarget
+
+      class HaveStimulusController
+        def initialize: (String name) -> void
+        def matches?: (untyped page) -> bool
+        def does_not_match?: (untyped page) -> bool
+        def failure_message: () -> String
+        def failure_message_when_negated: () -> String
+        def description: () -> String
+      end
+
+      class HaveStimulusAction
+        def initialize: (String descriptor) -> void
+        def matches?: (untyped page) -> bool
+        def does_not_match?: (untyped page) -> bool
+        def failure_message: () -> String
+        def failure_message_when_negated: () -> String
+        def description: () -> String
+      end
+
+      class HaveStimulusTarget
+        def initialize: (String controller, String target) -> void
+        def matches?: (untyped page) -> bool
+        def does_not_match?: (untyped page) -> bool
+        def failure_message: () -> String
+        def failure_message_when_negated: () -> String
+        def description: () -> String
+      end
+    end
+  end
 end

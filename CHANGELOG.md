@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `have_stimulus_outlet(controller, outlet)` matcher — asserts `data-{controller}-{outlet}-outlet` exists
 - `have_stimulus_outlet(controller, outlet, selector)` matcher — asserts attribute equals the CSS selector value
+- Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target` for system/feature specs
+- Auto-include `StimulusSpec::Capybara::Matchers` into `type: :system` and `type: :feature` (gated on `capybara`)
 
 ## [0.3.0] - 2026-06-22
 

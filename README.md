@@ -9,6 +9,7 @@
 Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired/stimulus-rails) — stop hand-rolling `data-controller` assertions and test your Stimulus wiring with expressive, purpose-built matchers.
 
 - **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, `have_stimulus_value`, `have_stimulus_class`, `have_stimulus_outlet`
+- **System/feature specs** — Capybara matchers: `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`
 - **Auto-included** — zero setup required when `stimulus-rails` is in your bundle
 - **Configurable** — disable auto-include when you need manual control
 
@@ -46,7 +47,10 @@ end
 
 ### Rails + stimulus-rails (automatic)
 
-No setup needed. When `stimulus-rails` is in your bundle, `StimulusSpec::Matchers` is automatically included in `type: :request`, `:controller`, `:system`, and `:feature` example groups.
+No setup needed. When `stimulus-rails` is in your bundle:
+
+- `StimulusSpec::Matchers` is automatically included in `type: :request` and `type: :controller` example groups
+- `StimulusSpec::Capybara::Matchers` is automatically included in `type: :system` and `type: :feature` example groups when `capybara` is also present
 
 ### Manual include
 
@@ -55,7 +59,8 @@ For non-Rails projects or custom contexts, include the matchers explicitly:
 ```ruby
 # spec/spec_helper.rb
 RSpec.configure do |config|
-  config.include StimulusSpec::Matchers
+  config.include StimulusSpec::Matchers                 # request/controller specs
+  config.include StimulusSpec::Capybara::Matchers       # system/feature specs
 end
 ```
 
@@ -174,6 +179,20 @@ RSpec.describe "Search", type: :request do
       expect(response).to have_stimulus_action("input->search#query")
       expect(response).to have_stimulus_target("search", "input")
     end
+  end
+end
+```
+
+### Example: system spec
+
+```ruby
+RSpec.describe "Search", type: :system do
+  it "has the search controller wired up" do
+    visit search_path
+
+    expect(page).to have_stimulus_controller("search")
+    expect(page).to have_stimulus_action("input->search#query")
+    expect(page).to have_stimulus_target("search", "input")
   end
 end
 ```
