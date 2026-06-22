@@ -8,12 +8,11 @@
 
 Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired/stimulus-rails) — stop hand-rolling `data-controller` assertions and test your Stimulus wiring with expressive, purpose-built matchers.
 
+- **Request/controller specs** — `have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`
 - **Auto-included** — zero setup required when `stimulus-rails` is in your bundle
 - **Configurable** — disable auto-include when you need manual control
 
 Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) — together they cover the full Hotwire testing stack.
-
-> **Note:** This gem is under active development. Matchers (`have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`, etc.) are coming in upcoming releases. See the [ROADMAP](ROADMAP.md) for planned features.
 
 ## Installation
 
@@ -48,6 +47,67 @@ end
 # spec/support/stimulus_spec.rb
 StimulusSpec.configure do |config|
   config.auto_include = false  # disable automatic inclusion
+end
+```
+
+## Matchers
+
+### `have_stimulus_controller`
+
+Assert that rendered HTML contains a `data-controller` attribute with the given controller name.
+
+```ruby
+expect(response).to have_stimulus_controller("hello")
+
+# Works with multiple controllers on a single element
+expect(response).to have_stimulus_controller("clipboard")
+
+# Negation
+expect(response).not_to have_stimulus_controller("missing")
+```
+
+Uses space-separated token matching (`~=`), so it works correctly when multiple controllers are declared on a single element and won't partially match.
+
+### `have_stimulus_action`
+
+Assert that rendered HTML contains a `data-action` attribute with the given action descriptor.
+
+```ruby
+# Full descriptor
+expect(response).to have_stimulus_action("click->hello#greet")
+
+# Shorthand — matches any event
+expect(response).to have_stimulus_action("hello#greet")
+
+# Negation
+expect(response).not_to have_stimulus_action("hello#disconnect")
+```
+
+### `have_stimulus_target`
+
+Assert that rendered HTML contains a `data-{controller}-target` attribute with the given target name.
+
+```ruby
+expect(response).to have_stimulus_target("hello", "name")
+expect(response).to have_stimulus_target("hello", "output")
+
+# Negation
+expect(response).not_to have_stimulus_target("hello", "missing")
+```
+
+## Example
+
+```ruby
+RSpec.describe "Search", type: :request do
+  describe "GET /search" do
+    it "wires up the search controller" do
+      get search_path
+
+      expect(response).to have_stimulus_controller("search")
+      expect(response).to have_stimulus_action("input->search#query")
+      expect(response).to have_stimulus_target("search", "input")
+    end
+  end
 end
 ```
 

@@ -11,18 +11,6 @@ RSpec matchers for [Stimulus](https://github.com/hotwired/stimulus-rails): contr
 
 ---
 
-## 0.1.0 — Core Three
-
-First functional release. Enough for an interested user to install and start testing Stimulus wiring immediately.
-
-- `have_stimulus_controller("hello")` — asserts `[data-controller~="hello"]` in response HTML
-- `have_stimulus_action("click->hello#greet")` — full descriptor (`~=`) and shorthand without event (`*=`)
-- `have_stimulus_target("hello", "name")` — asserts `[data-hello-target~="name"]`
-- `StimulusSpec::Matchers` factory module with `def have_stimulus_*` methods
-- Full RSpec test coverage for all three matchers
-
----
-
 ## 0.2.0 — Values and Classes
 
 - `have_stimulus_value("search", "url")` — assert `data-search-url-value` attribute exists
