@@ -26,4 +26,6 @@ Naming/PredicatePrefix:
     - have_stimulus_controller
     - have_stimulus_action
     - have_stimulus_target
+    - have_stimulus_value
+    - have_stimulus_class
     - does_not_match?
