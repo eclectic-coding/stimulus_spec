@@ -14,6 +14,19 @@ Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired
 
 Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) — together they cover the full Hotwire testing stack.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Setup](#setup)
+- [Matchers](#matchers)
+  - [have\_stimulus\_controller](#have_stimulus_controller)
+  - [have\_stimulus\_action](#have_stimulus_action)
+  - [have\_stimulus\_target](#have_stimulus_target)
+- [Example](#example)
+- [Relationship to turbo\_rspec](#relationship-to-turbo_rspec)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Installation
 
 Add to your application's `Gemfile`:
@@ -23,6 +36,8 @@ group :test do
   gem "stimulus_spec"
 end
 ```
+
+[Back to top](#stimulusspec)
 
 ## Setup
 
@@ -49,6 +64,8 @@ StimulusSpec.configure do |config|
   config.auto_include = false  # disable automatic inclusion
 end
 ```
+
+[Back to top](#stimulusspec)
 
 ## Matchers
 
@@ -95,6 +112,8 @@ expect(response).to have_stimulus_target("hello", "output")
 expect(response).not_to have_stimulus_target("hello", "missing")
 ```
 
+[Back to top](#stimulusspec)
+
 ## Example
 
 ```ruby
@@ -111,11 +130,15 @@ RSpec.describe "Search", type: :request do
 end
 ```
 
+[Back to top](#stimulusspec)
+
 ## Relationship to turbo_rspec
 
 [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) includes basic Stimulus matchers (`have_stimulus_controller`, `have_stimulus_action`, `have_stimulus_target`). **stimulus_spec** goes deeper with value, class, and outlet matchers, plus richer failure messages and Stimulus-specific configuration. If you only need basic controller/action/target assertions alongside your Turbo matchers, turbo_rspec has you covered. If you want comprehensive Stimulus testing, use stimulus_spec.
 
 Both gems can coexist — they use separate namespaces and won't conflict.
+
+[Back to top](#stimulusspec)
 
 ## Contributing
 
@@ -124,3 +147,5 @@ Bug reports and pull requests are welcome on [GitHub](https://github.com/eclecti
 ## License
 
 The gem is available as open source under the [MIT License](https://opensource.org/licenses/MIT).
+
+[Back to top](#stimulusspec)
