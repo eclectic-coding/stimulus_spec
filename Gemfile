@@ -14,6 +14,7 @@ group :development do
 end
 
 group :test do
+  gem "capybara", require: false
   gem "rspec", "~> 3.0"
   gem "simplecov", require: false
   gem "simplecov_json_formatter", require: false

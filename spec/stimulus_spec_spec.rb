@@ -45,11 +45,29 @@ RSpec.describe StimulusSpec do
 
     context "when stimulus-rails is loaded and auto_include is true" do
       before do
+        allow(Gem).to receive(:loaded_specs)
+          .and_return("stimulus-rails" => true, "capybara" => true)
+      end
+
+      it "includes Matchers into request and controller groups" do
+        %i[request controller].each do |type|
+          expect(rspec_config).to receive(:include).with(StimulusSpec::Matchers, type: type)
+        end
+        %i[system feature].each do |type|
+          expect(rspec_config).to receive(:include).with(StimulusSpec::Capybara::Matchers, type: type)
+        end
+
+        described_class.install_rspec_integration(rspec_config)
+      end
+    end
+
+    context "when stimulus-rails is loaded but capybara is not" do
+      before do
         allow(Gem).to receive(:loaded_specs).and_return("stimulus-rails" => true)
       end
 
-      it "includes Matchers into request, controller, system, and feature groups" do
-        %i[request controller system feature].each do |type|
+      it "includes Matchers into request and controller groups only" do
+        %i[request controller].each do |type|
           expect(rspec_config).to receive(:include).with(StimulusSpec::Matchers, type: type)
         end
 
