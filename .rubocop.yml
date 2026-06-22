@@ -28,4 +28,5 @@ Naming/PredicatePrefix:
     - have_stimulus_target
     - have_stimulus_value
     - have_stimulus_class
+    - have_stimulus_outlet
     - does_not_match?
