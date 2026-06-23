@@ -8,13 +8,18 @@ module StimulusSpec
           @descriptor = descriptor.to_s
         end
 
+        def within(selector)
+          @scope = selector
+          self
+        end
+
         def matches?(page)
           @page = page
-          page.has_css?(css_selector, wait: 0)
+          page.has_css?(scoped_selector, wait: 0)
         end
 
         def does_not_match?(page)
-          page.has_no_css?(css_selector, wait: 0)
+          page.has_no_css?(scoped_selector, wait: 0)
         end
 
         def failure_message
@@ -31,12 +36,13 @@ module StimulusSpec
 
         private
 
-        def css_selector
-          if @descriptor.include?("->")
-            "[data-action~='#{@descriptor}']"
-          else
-            "[data-action*='#{@descriptor}']"
-          end
+        def scoped_selector
+          base = if @descriptor.include?("->")
+                   "[data-action~='#{@descriptor}']"
+                 else
+                   "[data-action*='#{@descriptor}']"
+                 end
+          @scope ? "#{@scope} #{base}" : base
         end
       end
 

@@ -27,6 +27,35 @@ RSpec.describe StimulusSpec::Capybara::Matchers::HaveStimulusController do
     end
   end
 
+  describe "multi-controller" do
+    it "matches when all controllers are on a single element" do
+      page = ::Capybara.string('<div data-controller="hello clipboard"></div>')
+      expect(page).to have_stimulus_controller("hello", "clipboard")
+    end
+
+    it "does not match when some controllers are missing" do
+      page = ::Capybara.string('<div data-controller="hello"></div>')
+      expect(page).not_to have_stimulus_controller("hello", "clipboard")
+    end
+
+    it "does not match when none are present" do
+      page = ::Capybara.string("<div></div>")
+      expect(page).not_to have_stimulus_controller("hello", "clipboard")
+    end
+  end
+
+  describe "#within" do
+    it "matches within the given selector" do
+      page = ::Capybara.string('<form class="search"><div data-controller="hello"></div></form>')
+      expect(page).to have_stimulus_controller("hello").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      page = ::Capybara.string('<div data-controller="hello"></div><form class="search"></form>')
+      expect(page).not_to have_stimulus_controller("hello").within(".search")
+    end
+  end
+
   describe "#does_not_match?" do
     it "uses has_no_css? for negation" do
       page = ::Capybara.string("<div></div>")

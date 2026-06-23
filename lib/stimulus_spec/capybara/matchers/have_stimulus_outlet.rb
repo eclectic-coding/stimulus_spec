@@ -11,9 +11,14 @@ module StimulusSpec
           @attr = "data-#{@controller}-#{@outlet}-outlet"
         end
 
+        def within(selector)
+          @scope = selector
+          self
+        end
+
         def matches?(page)
           @page = page
-          element = page.first("[#{@attr}]", minimum: 0, wait: 0)
+          element = page.first(scoped_selector, minimum: 0, wait: 0)
           return false unless element
 
           if @selector
@@ -46,6 +51,13 @@ module StimulusSpec
           else
             "have Stimulus outlet \"#{@outlet}\" for controller \"#{@controller}\""
           end
+        end
+
+        private
+
+        def scoped_selector
+          base = "[#{@attr}]"
+          @scope ? "#{@scope} #{base}" : base
         end
       end
 

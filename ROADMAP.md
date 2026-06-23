@@ -11,13 +11,6 @@ RSpec matchers for [Stimulus](https://github.com/hotwired/stimulus-rails): contr
 
 ---
 
-## 0.6.0 — Multi-Controller and Scoped Matching
-
-- `have_stimulus_controller("hello", "clipboard")` — assert multiple controllers on a single element
-- Scoped matching — assert Stimulus attributes within a specific CSS selector (e.g., within a form or component root)
-
----
-
 ## 0.7.0 — Documentation and Polish
 
 - Full YARD documentation on all public methods and classes

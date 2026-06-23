@@ -71,6 +71,23 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusAction do
     end
   end
 
+  describe "#within" do
+    it "matches within the given selector" do
+      html = '<form class="search"><button data-action="click->hello#greet"></button></form>'
+      expect(html).to have_stimulus_action("click->hello#greet").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      html = '<button data-action="click->hello#greet"></button><form class="search"></form>'
+      expect(html).not_to have_stimulus_action("click->hello#greet").within(".search")
+    end
+
+    it "returns false when scope element is not found" do
+      html = '<button data-action="click->hello#greet"></button>'
+      expect(html).not_to have_stimulus_action("click->hello#greet").within(".missing")
+    end
+  end
+
   describe "#description" do
     it "describes the matcher" do
       matcher = have_stimulus_action("click->hello#greet")

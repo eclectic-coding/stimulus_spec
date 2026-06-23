@@ -10,18 +10,21 @@ module StimulusSpec
         @attr = "data-#{@controller}-#{@name}-class"
       end
 
+      def within(selector)
+        @scope = selector
+        self
+      end
+
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
-        @element = @doc.at_css("[#{@attr}]")
+        @element = search_root&.at_css("[#{@attr}]")
         return false unless @element
 
-        if @expected
-          @actual = @element[@attr]
-          @actual == @expected.to_s
-        else
-          true
-        end
+        return true unless @expected
+
+        @actual = @element[@attr]
+        @actual == @expected.to_s
       end
 
       def does_not_match?(subject)
@@ -54,8 +57,15 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
+      def search_root
+        return @doc unless @scope
+
+        @doc.at_css(@scope)
+      end
+
       def snippet
-        elements = @doc.css("[data-controller]")
+        root = search_root || @doc
+        elements = root.css("[data-controller]")
         return @body if elements.empty?
 
         elements.map(&:to_html).join("\n")

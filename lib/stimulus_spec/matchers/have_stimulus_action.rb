@@ -7,13 +7,21 @@ module StimulusSpec
         @descriptor = descriptor.to_s
       end
 
+      def within(selector)
+        @scope = selector
+        self
+      end
+
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
+        root = search_root
+        return false unless root
+
         if @descriptor.include?("->")
-          !@doc.at_css("[data-action~='#{@descriptor}']").nil?
+          !root.at_css("[data-action~='#{@descriptor}']").nil?
         else
-          !@doc.at_css("[data-action*='#{@descriptor}']").nil?
+          !root.at_css("[data-action*='#{@descriptor}']").nil?
         end
       end
 
@@ -43,8 +51,15 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
+      def search_root
+        return @doc unless @scope
+
+        @doc.at_css(@scope)
+      end
+
       def snippet
-        elements = @doc.css("[data-action]")
+        root = search_root || @doc
+        elements = root.css("[data-action]")
         return @body if elements.empty?
 
         elements.map(&:to_html).join("\n")

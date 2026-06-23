@@ -63,6 +63,23 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusTarget do
     end
   end
 
+  describe "#within" do
+    it "matches within the given selector" do
+      html = '<form class="search"><input data-hello-target="name"></form>'
+      expect(html).to have_stimulus_target("hello", "name").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      html = '<input data-hello-target="name"><form class="search"></form>'
+      expect(html).not_to have_stimulus_target("hello", "name").within(".search")
+    end
+
+    it "returns false when scope element is not found" do
+      html = '<input data-hello-target="name">'
+      expect(html).not_to have_stimulus_target("hello", "name").within(".missing")
+    end
+  end
+
   describe "#description" do
     it "describes the matcher" do
       matcher = have_stimulus_target("hello", "name")

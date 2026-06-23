@@ -13,7 +13,7 @@ module StimulusSpec
   end
 
   module Matchers
-    def have_stimulus_controller: (String name) -> HaveStimulusController
+    def have_stimulus_controller: (*String names) -> HaveStimulusController
     def have_stimulus_action: (String descriptor) -> HaveStimulusAction
     def have_stimulus_target: (String controller, String target) -> HaveStimulusTarget
     def have_stimulus_value: (String controller, String name, ?String? expected) -> HaveStimulusValue
@@ -21,7 +21,8 @@ module StimulusSpec
     def have_stimulus_outlet: (String controller, String outlet, ?String? selector) -> HaveStimulusOutlet
 
     class HaveStimulusController
-      def initialize: (String name) -> void
+      def initialize: (*String names) -> void
+      def within: (String selector) -> self
       def matches?: (untyped subject) -> bool
       def does_not_match?: (untyped subject) -> bool
       def failure_message: () -> String
@@ -31,6 +32,7 @@ module StimulusSpec
 
     class HaveStimulusAction
       def initialize: (String descriptor) -> void
+      def within: (String selector) -> self
       def matches?: (untyped subject) -> bool
       def does_not_match?: (untyped subject) -> bool
       def failure_message: () -> String
@@ -40,6 +42,7 @@ module StimulusSpec
 
     class HaveStimulusTarget
       def initialize: (String controller, String target) -> void
+      def within: (String selector) -> self
       def matches?: (untyped subject) -> bool
       def does_not_match?: (untyped subject) -> bool
       def failure_message: () -> String
@@ -49,6 +52,7 @@ module StimulusSpec
 
     class HaveStimulusValue
       def initialize: (String controller, String name, ?String? expected) -> void
+      def within: (String selector) -> self
       def matches?: (untyped subject) -> bool
       def does_not_match?: (untyped subject) -> bool
       def failure_message: () -> String
@@ -58,6 +62,7 @@ module StimulusSpec
 
     class HaveStimulusClass
       def initialize: (String controller, String name, ?String? expected) -> void
+      def within: (String selector) -> self
       def matches?: (untyped subject) -> bool
       def does_not_match?: (untyped subject) -> bool
       def failure_message: () -> String
@@ -67,6 +72,7 @@ module StimulusSpec
 
     class HaveStimulusOutlet
       def initialize: (String controller, String outlet, ?String? selector) -> void
+      def within: (String selector) -> self
       def matches?: (untyped subject) -> bool
       def does_not_match?: (untyped subject) -> bool
       def failure_message: () -> String
@@ -77,7 +83,7 @@ module StimulusSpec
 
   module Capybara
     module Matchers
-      def have_stimulus_controller: (String name) -> HaveStimulusController
+      def have_stimulus_controller: (*String names) -> HaveStimulusController
       def have_stimulus_action: (String descriptor) -> HaveStimulusAction
       def have_stimulus_target: (String controller, String target) -> HaveStimulusTarget
       def have_stimulus_value: (String controller, String name, ?String? expected) -> HaveStimulusValue
@@ -85,7 +91,8 @@ module StimulusSpec
       def have_stimulus_outlet: (String controller, String outlet, ?String? selector) -> HaveStimulusOutlet
 
       class HaveStimulusController
-        def initialize: (String name) -> void
+        def initialize: (*String names) -> void
+        def within: (String selector) -> self
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String
@@ -95,6 +102,7 @@ module StimulusSpec
 
       class HaveStimulusAction
         def initialize: (String descriptor) -> void
+        def within: (String selector) -> self
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String
@@ -104,6 +112,7 @@ module StimulusSpec
 
       class HaveStimulusTarget
         def initialize: (String controller, String target) -> void
+        def within: (String selector) -> self
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String
@@ -113,6 +122,7 @@ module StimulusSpec
 
       class HaveStimulusValue
         def initialize: (String controller, String name, ?String? expected) -> void
+        def within: (String selector) -> self
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String
@@ -122,6 +132,7 @@ module StimulusSpec
 
       class HaveStimulusClass
         def initialize: (String controller, String name, ?String? expected) -> void
+        def within: (String selector) -> self
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String
@@ -131,6 +142,7 @@ module StimulusSpec
 
       class HaveStimulusOutlet
         def initialize: (String controller, String outlet, ?String? selector) -> void
+        def within: (String selector) -> self
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String

@@ -26,6 +26,7 @@ Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) �
   - [have\_stimulus\_value](#have_stimulus_value)
   - [have\_stimulus\_class](#have_stimulus_class)
   - [have\_stimulus\_outlet](#have_stimulus_outlet)
+  - [Scoped matching with `.within`](#scoped-matching-with-within)
 - [Example](#example)
 - [Relationship to turbo\_rspec](#relationship-to-turbo_rspec)
 - [Contributing](#contributing)
@@ -84,8 +85,8 @@ Assert that rendered HTML contains a `data-controller` attribute with the given 
 ```ruby
 expect(response).to have_stimulus_controller("hello")
 
-# Works with multiple controllers on a single element
-expect(response).to have_stimulus_controller("clipboard")
+# Assert multiple controllers on a single element
+expect(response).to have_stimulus_controller("hello", "clipboard")
 
 # Negation
 expect(response).not_to have_stimulus_controller("missing")
@@ -163,6 +164,20 @@ expect(response).to have_stimulus_outlet("search", "results", "#results-list")
 
 # Negation
 expect(response).not_to have_stimulus_outlet("search", "results")
+```
+
+### Scoped matching with `.within`
+
+All matchers support `.within(selector)` to restrict matching to a specific part of the page:
+
+```ruby
+# Request/controller specs — search within a CSS selector
+expect(response).to have_stimulus_controller("search").within(".search-form")
+expect(response).to have_stimulus_action("click->search#query").within(".search-form")
+expect(response).to have_stimulus_target("search", "input").within(".search-form")
+
+# System/feature specs — same API
+expect(page).to have_stimulus_controller("search").within(".search-form")
 ```
 
 [Back to top](#stimulusspec)

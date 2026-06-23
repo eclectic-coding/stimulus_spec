@@ -51,6 +51,18 @@ RSpec.describe StimulusSpec::Capybara::Matchers::HaveStimulusAction do
     end
   end
 
+  describe "#within" do
+    it "matches within the given selector" do
+      page = ::Capybara.string('<form class="search"><button data-action="click->hello#greet"></button></form>')
+      expect(page).to have_stimulus_action("click->hello#greet").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      page = ::Capybara.string('<button data-action="click->hello#greet"></button><form class="search"></form>')
+      expect(page).not_to have_stimulus_action("click->hello#greet").within(".search")
+    end
+  end
+
   describe "#description" do
     it "describes the matcher" do
       matcher = have_stimulus_action("click->hello#greet")
