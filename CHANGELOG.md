@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Multi-controller assertion: `have_stimulus_controller("hello", "clipboard")` asserts multiple controllers on a single element
+- Scoped matching via `.within(selector)` on all matchers (request-spec and Capybara)
+
 ## [0.5.0] - 2026-06-23
 
 ### Added
