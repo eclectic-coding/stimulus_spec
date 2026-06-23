@@ -3,15 +3,24 @@
 module StimulusSpec
   module Matchers
     class HaveStimulusController
-      def initialize(name)
-        @name = name.to_s
+      def initialize(*names)
+        @names = names.map(&:to_s)
+      end
+
+      def within(selector)
+        @scope = selector
+        self
       end
 
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
-        @found_controllers = @doc.css("[data-controller]").flat_map { |el| el["data-controller"].split }
-        !@doc.at_css("[data-controller~='#{@name}']").nil?
+        root = search_root
+        return false unless root
+
+        @found_controllers = root.css("[data-controller]").flat_map { |el| el["data-controller"].split }
+        selector = @names.map { |n| "[data-controller~='#{n}']" }.join
+        !root.at_css(selector).nil?
       end
 
       def does_not_match?(subject)
@@ -19,8 +28,9 @@ module StimulusSpec
       end
 
       def failure_message
-        msg = "expected to find an element with data-controller=\"#{@name}\""
-        if @found_controllers.any?
+        label = @names.map { |n| "\"#{n}\"" }.join(", ")
+        msg = "expected to find an element with data-controller=#{label}"
+        if @found_controllers&.any?
           msg += "\n  found controllers: #{@found_controllers.uniq.map { |c| "\"#{c}\"" }.join(", ")}"
         end
         msg += "\n  in:\n#{snippet}"
@@ -28,11 +38,13 @@ module StimulusSpec
       end
 
       def failure_message_when_negated
-        "expected not to find an element with data-controller=\"#{@name}\" but found one"
+        label = @names.map { |n| "\"#{n}\"" }.join(", ")
+        "expected not to find an element with data-controller=#{label} but found one"
       end
 
       def description
-        "have Stimulus controller \"#{@name}\""
+        label = @names.map { |n| "\"#{n}\"" }.join(", ")
+        "have Stimulus controller #{label}"
       end
 
       private
@@ -41,16 +53,23 @@ module StimulusSpec
         subject.respond_to?(:body) ? subject.body : subject.to_s
       end
 
+      def search_root
+        return @doc unless @scope
+
+        @doc.at_css(@scope)
+      end
+
       def snippet
-        elements = @doc.css("[data-controller]")
+        root = search_root || @doc
+        elements = root.css("[data-controller]")
         return @body if elements.empty?
 
         elements.map(&:to_html).join("\n")
       end
     end
 
-    def have_stimulus_controller(name)
-      HaveStimulusController.new(name)
+    def have_stimulus_controller(*names)
+      HaveStimulusController.new(*names)
     end
   end
 end

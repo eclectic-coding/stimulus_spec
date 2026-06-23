@@ -9,13 +9,18 @@ module StimulusSpec
           @target = target.to_s
         end
 
+        def within(selector)
+          @scope = selector
+          self
+        end
+
         def matches?(page)
           @page = page
-          page.has_css?("[data-#{@controller}-target~='#{@target}']", wait: 0)
+          page.has_css?(scoped_selector, wait: 0)
         end
 
         def does_not_match?(page)
-          page.has_no_css?("[data-#{@controller}-target~='#{@target}']", wait: 0)
+          page.has_no_css?(scoped_selector, wait: 0)
         end
 
         def failure_message
@@ -28,6 +33,13 @@ module StimulusSpec
 
         def description
           "have Stimulus target \"#{@target}\" for controller \"#{@controller}\""
+        end
+
+        private
+
+        def scoped_selector
+          base = "[data-#{@controller}-target~='#{@target}']"
+          @scope ? "#{@scope} #{base}" : base
         end
       end
 
