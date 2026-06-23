@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `bin/benchmark` script for measuring matcher overhead
+- Version spec enforcing semver format on `StimulusSpec::VERSION`
+- `docs/migration_guide.md` for migrating from turbo_rspec's Stimulus matchers
+- Guiding principles section in README
+
 ## [0.7.0] - 2026-06-23
 
 ### Added

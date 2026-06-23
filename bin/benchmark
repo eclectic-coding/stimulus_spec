@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "benchmark"
+require "stimulus_spec"
+
+SIMPLE_HTML = '<div data-controller="hello" data-action="click->hello#greet" data-hello-target="name"></div>'
+
+COMPLEX_HTML = <<~HTML
+  <section>
+    <form data-controller="search clipboard" data-action="submit->search#query" data-search-url-value="/results" data-search-loading-class="opacity-50" data-search-results-outlet="#results-list">
+      <input data-search-target="input" data-clipboard-target="source">
+      <button data-action="click->clipboard#copy">Copy</button>
+    </form>
+    <div id="results-list" data-controller="results">
+      <ul data-results-target="list"></ul>
+    </div>
+  </section>
+HTML
+
+ITERATIONS = 10_000
+
+puts "StimulusSpec v#{StimulusSpec::VERSION} — matcher overhead benchmark"
+puts "Ruby #{RUBY_VERSION}, #{ITERATIONS} iterations each"
+puts
+
+include StimulusSpec::Matchers
+
+Benchmark.bm(35) do |x|
+  x.report("controller (simple)") do
+    ITERATIONS.times { have_stimulus_controller("hello").matches?(SIMPLE_HTML) }
+  end
+
+  x.report("controller (complex)") do
+    ITERATIONS.times { have_stimulus_controller("search").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("multi-controller") do
+    ITERATIONS.times { have_stimulus_controller("search", "clipboard").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("action (full descriptor)") do
+    ITERATIONS.times { have_stimulus_action("submit->search#query").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("action (shorthand)") do
+    ITERATIONS.times { have_stimulus_action("search#query").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("target") do
+    ITERATIONS.times { have_stimulus_target("search", "input").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("value (existence)") do
+    ITERATIONS.times { have_stimulus_value("search", "url").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("value (equality)") do
+    ITERATIONS.times { have_stimulus_value("search", "url", "/results").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("class (existence)") do
+    ITERATIONS.times { have_stimulus_class("search", "loading").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("class (equality)") do
+    ITERATIONS.times { have_stimulus_class("search", "loading", "opacity-50").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("outlet (existence)") do
+    ITERATIONS.times { have_stimulus_outlet("search", "results").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("outlet (selector)") do
+    ITERATIONS.times { have_stimulus_outlet("search", "results", "#results-list").matches?(COMPLEX_HTML) }
+  end
+
+  x.report("scoped controller") do
+    ITERATIONS.times { have_stimulus_controller("search").within("form").matches?(COMPLEX_HTML) }
+  end
+end
