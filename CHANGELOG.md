@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-06-23
+
 ### Added
 
 - `bin/benchmark` script for measuring matcher overhead
@@ -68,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `have_stimulus_action(descriptor)` matcher — full descriptor (`~=`) and shorthand without event (`*=`)
 - `have_stimulus_target(controller, target)` matcher — asserts `[data-{controller}-target~="target"]`
 
-[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.8.0
 [0.7.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.7.0
 [0.6.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.6.0
 [0.5.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.5.0
