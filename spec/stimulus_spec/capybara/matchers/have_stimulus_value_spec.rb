@@ -66,6 +66,18 @@ RSpec.describe StimulusSpec::Capybara::Matchers::HaveStimulusValue do
     end
   end
 
+  describe "#within" do
+    it "matches within the given selector" do
+      page = ::Capybara.string('<form class="search"><div data-search-url-value="/results"></div></form>')
+      expect(page).to have_stimulus_value("search", "url").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      page = ::Capybara.string('<div data-search-url-value="/results"></div><form class="search"></form>')
+      expect(page).not_to have_stimulus_value("search", "url").within(".search")
+    end
+  end
+
   describe "#description" do
     it "describes the 2-arg form" do
       matcher = have_stimulus_value("search", "url")

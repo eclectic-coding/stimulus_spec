@@ -53,6 +53,18 @@ RSpec.describe StimulusSpec::Capybara::Matchers::HaveStimulusTarget do
     end
   end
 
+  describe "#within" do
+    it "matches within the given selector" do
+      page = ::Capybara.string('<form class="search"><input data-hello-target="name"></form>')
+      expect(page).to have_stimulus_target("hello", "name").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      page = ::Capybara.string('<input data-hello-target="name"><form class="search"></form>')
+      expect(page).not_to have_stimulus_target("hello", "name").within(".search")
+    end
+  end
+
   describe "#description" do
     it "describes the matcher" do
       matcher = have_stimulus_target("hello", "name")

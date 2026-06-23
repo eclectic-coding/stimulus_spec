@@ -35,6 +35,50 @@ RSpec.describe StimulusSpec::Matchers::HaveStimulusController do
     end
   end
 
+  describe "multi-controller" do
+    it "matches when all controllers are on a single element" do
+      html = '<div data-controller="hello clipboard"></div>'
+      expect(html).to have_stimulus_controller("hello", "clipboard")
+    end
+
+    it "does not match when some controllers are missing" do
+      html = '<div data-controller="hello"></div>'
+      expect(html).not_to have_stimulus_controller("hello", "clipboard")
+    end
+
+    it "does not match when none are present" do
+      html = "<div></div>"
+      expect(html).not_to have_stimulus_controller("hello", "clipboard")
+    end
+
+    it "failure message lists found vs expected" do
+      html = '<div data-controller="hello"></div>'
+      matcher = have_stimulus_controller("hello", "clipboard")
+      matcher.matches?(html)
+      expect(matcher.failure_message).to include('"hello"')
+      expect(matcher.failure_message).to include('"clipboard"')
+    end
+  end
+
+  describe "#within" do
+    it "matches within the given selector" do
+      html = '<form class="search"><div data-controller="hello"></div></form>'
+      expect(html).to have_stimulus_controller("hello").within(".search")
+    end
+
+    it "does not match outside the given selector" do
+      html = '<div data-controller="hello"></div><form class="search"></form>'
+      expect(html).not_to have_stimulus_controller("hello").within(".search")
+    end
+
+    it "returns false when scope element is not found" do
+      html = '<div data-controller="hello"></div>'
+      matcher = have_stimulus_controller("hello").within(".missing")
+      expect(html).not_to matcher
+      expect(matcher.failure_message).to include("hello")
+    end
+  end
+
   describe "#failure_message" do
     it "includes the expected controller name and HTML" do
       html = "<div></div>"
