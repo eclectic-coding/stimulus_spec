@@ -2,18 +2,28 @@
 
 module StimulusSpec
   module Matchers
+    # Asserts that rendered HTML contains a +data-{controller}-target+ attribute with the given target name.
+    #
+    # @example
+    #   expect(response).to have_stimulus_target("hello", "name")
     class HaveStimulusTarget
+      # @param controller [String] controller name
+      # @param target [String] target name
       def initialize(controller, target)
         @controller = controller.to_s
         @target = target.to_s
         @attr = "data-#{@controller}-target"
       end
 
+      # @param selector [String] CSS selector for the scope element
+      # @return [self]
       def within(selector)
         @scope = selector
         self
       end
 
+      # @param subject [#body, String] response object or HTML string
+      # @return [Boolean]
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
@@ -64,6 +74,9 @@ module StimulusSpec
       end
     end
 
+    # @param controller [String] controller name
+    # @param target [String] target name
+    # @return [HaveStimulusTarget]
     def have_stimulus_target(controller, target)
       HaveStimulusTarget.new(controller, target)
     end

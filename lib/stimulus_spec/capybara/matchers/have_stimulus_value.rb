@@ -3,7 +3,14 @@
 module StimulusSpec
   module Capybara
     module Matchers
+      # Capybara matcher for +data-{controller}-{name}-value+ attributes.
+      #
+      # @example
+      #   expect(page).to have_stimulus_value("search", "url", "/results")
       class HaveStimulusValue
+        # @param controller [String] controller name
+        # @param name [String] value name
+        # @param expected [String, nil] expected attribute value
         def initialize(controller, name, expected = nil)
           @controller = controller.to_s
           @name = name.to_s
@@ -11,11 +18,15 @@ module StimulusSpec
           @attr = "data-#{@controller}-#{@name}-value"
         end
 
+        # @param selector [String] CSS selector for the scope element
+        # @return [self]
         def within(selector)
           @scope = selector
           self
         end
 
+        # @param page [Capybara::Session, Capybara::Node::Simple]
+        # @return [Boolean]
         def matches?(page)
           @page = page
           element = page.first(scoped_selector, minimum: 0, wait: 0)
@@ -61,6 +72,10 @@ module StimulusSpec
         end
       end
 
+      # @param controller [String] controller name
+      # @param name [String] value name
+      # @param expected [String, nil] expected value
+      # @return [HaveStimulusValue]
       def have_stimulus_value(controller, name, expected = nil)
         HaveStimulusValue.new(controller, name, expected)
       end

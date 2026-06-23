@@ -2,7 +2,16 @@
 
 module StimulusSpec
   module Matchers
+    # Asserts that rendered HTML contains a +data-{controller}-{outlet}-outlet+ attribute.
+    #
+    # @example Existence check
+    #   expect(response).to have_stimulus_outlet("search", "results")
+    # @example Selector check
+    #   expect(response).to have_stimulus_outlet("search", "results", "#results-list")
     class HaveStimulusOutlet
+      # @param controller [String] controller name
+      # @param outlet [String] outlet name
+      # @param selector [String, nil] expected CSS selector value (omit for existence check)
       def initialize(controller, outlet, selector = nil)
         @controller = controller.to_s
         @outlet = outlet.to_s
@@ -10,11 +19,15 @@ module StimulusSpec
         @attr = "data-#{@controller}-#{@outlet}-outlet"
       end
 
+      # @param selector [String] CSS selector for the scope element
+      # @return [self]
       def within(selector)
         @scope = selector
         self
       end
 
+      # @param subject [#body, String] response object or HTML string
+      # @return [Boolean]
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
@@ -72,6 +85,10 @@ module StimulusSpec
       end
     end
 
+    # @param controller [String] controller name
+    # @param outlet [String] outlet name
+    # @param selector [String, nil] expected CSS selector value
+    # @return [HaveStimulusOutlet]
     def have_stimulus_outlet(controller, outlet, selector = nil)
       HaveStimulusOutlet.new(controller, outlet, selector)
     end

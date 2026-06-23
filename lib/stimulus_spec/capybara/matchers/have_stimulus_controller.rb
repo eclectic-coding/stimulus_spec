@@ -3,16 +3,27 @@
 module StimulusSpec
   module Capybara
     module Matchers
+      # Capybara matcher for +data-controller+ attributes.
+      #
+      # @example
+      #   expect(page).to have_stimulus_controller("hello")
+      # @example Multiple controllers
+      #   expect(page).to have_stimulus_controller("hello", "clipboard")
       class HaveStimulusController
+        # @param names [Array<String>] one or more controller names
         def initialize(*names)
           @names = names.map(&:to_s)
         end
 
+        # @param selector [String] CSS selector for the scope element
+        # @return [self]
         def within(selector)
           @scope = selector
           self
         end
 
+        # @param page [Capybara::Session, Capybara::Node::Simple] Capybara page object
+        # @return [Boolean]
         def matches?(page)
           @page = page
           page.has_css?(scoped_selector, wait: 0)
@@ -46,6 +57,8 @@ module StimulusSpec
         end
       end
 
+      # @param names [Array<String>] one or more controller names
+      # @return [HaveStimulusController]
       def have_stimulus_controller(*names)
         HaveStimulusController.new(*names)
       end

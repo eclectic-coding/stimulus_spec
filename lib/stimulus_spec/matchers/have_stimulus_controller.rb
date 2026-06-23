@@ -1,17 +1,33 @@
 # frozen_string_literal: true
 
 module StimulusSpec
+  # Matchers for request and controller specs (Nokogiri-based HTML parsing).
   module Matchers
+    # Asserts that rendered HTML contains a +data-controller+ attribute with the given name(s).
+    #
+    # @example Single controller
+    #   expect(response).to have_stimulus_controller("hello")
+    # @example Multiple controllers on one element
+    #   expect(response).to have_stimulus_controller("hello", "clipboard")
+    # @example Scoped
+    #   expect(response).to have_stimulus_controller("search").within(".search-form")
     class HaveStimulusController
+      # @param names [Array<String>] one or more controller names to match
       def initialize(*names)
         @names = names.map(&:to_s)
       end
 
+      # Restricts matching to descendants of the given CSS selector.
+      #
+      # @param selector [String] CSS selector for the scope element
+      # @return [self]
       def within(selector)
         @scope = selector
         self
       end
 
+      # @param subject [#body, String] response object or HTML string
+      # @return [Boolean]
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
@@ -68,6 +84,8 @@ module StimulusSpec
       end
     end
 
+    # @param names [Array<String>] one or more controller names
+    # @return [HaveStimulusController]
     def have_stimulus_controller(*names)
       HaveStimulusController.new(*names)
     end
