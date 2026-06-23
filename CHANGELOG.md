@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Capybara `have_stimulus_class` matcher (existence and equality modes) for system/feature specs
+- Capybara `have_stimulus_outlet` matcher (existence and selector modes) for system/feature specs
+
 ## [0.4.0] - 2026-06-22
 
 ### Added
