@@ -3,16 +3,25 @@
 module StimulusSpec
   module Capybara
     module Matchers
+      # Capybara matcher for +data-action+ attributes.
+      #
+      # @example
+      #   expect(page).to have_stimulus_action("click->hello#greet")
       class HaveStimulusAction
+        # @param descriptor [String] action descriptor
         def initialize(descriptor)
           @descriptor = descriptor.to_s
         end
 
+        # @param selector [String] CSS selector for the scope element
+        # @return [self]
         def within(selector)
           @scope = selector
           self
         end
 
+        # @param page [Capybara::Session, Capybara::Node::Simple]
+        # @return [Boolean]
         def matches?(page)
           @page = page
           page.has_css?(scoped_selector, wait: 0)
@@ -46,6 +55,8 @@ module StimulusSpec
         end
       end
 
+      # @param descriptor [String] action descriptor
+      # @return [HaveStimulusAction]
       def have_stimulus_action(descriptor)
         HaveStimulusAction.new(descriptor)
       end

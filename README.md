@@ -15,6 +15,13 @@ Drop-in RSpec matchers for [hotwired/stimulus-rails](https://github.com/hotwired
 
 Companion gem to [turbo_rspec](https://github.com/eclectic-coding/turbo_rspec) — together they cover the full Hotwire testing stack.
 
+## Guiding principles
+
+- **Zero magic by default.** Auto-include only when it's unambiguous (Rails request specs with `stimulus-rails` present). Everything else is opt-in.
+- **Fail loudly with useful output.** A cryptic failure message is a bug. Show what was expected, what was found, and the relevant HTML.
+- **Stay close to Stimulus conventions.** Matcher names and arguments mirror Stimulus's `data-*` attribute conventions so the docs cross-reference naturally.
+- **Pure test helper.** No Rails engine, no generators, no runtime code — just matchers you include in your specs.
+
 ## Table of Contents
 
 - [Installation](#installation)

@@ -2,16 +2,27 @@
 
 module StimulusSpec
   module Matchers
+    # Asserts that rendered HTML contains a +data-action+ attribute with the given descriptor.
+    #
+    # @example Full descriptor
+    #   expect(response).to have_stimulus_action("click->hello#greet")
+    # @example Shorthand (any event)
+    #   expect(response).to have_stimulus_action("hello#greet")
     class HaveStimulusAction
+      # @param descriptor [String] full (+event->controller#method+) or shorthand (+controller#method+) descriptor
       def initialize(descriptor)
         @descriptor = descriptor.to_s
       end
 
+      # @param selector [String] CSS selector for the scope element
+      # @return [self]
       def within(selector)
         @scope = selector
         self
       end
 
+      # @param subject [#body, String] response object or HTML string
+      # @return [Boolean]
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
@@ -66,6 +77,8 @@ module StimulusSpec
       end
     end
 
+    # @param descriptor [String] action descriptor
+    # @return [HaveStimulusAction]
     def have_stimulus_action(descriptor)
       HaveStimulusAction.new(descriptor)
     end

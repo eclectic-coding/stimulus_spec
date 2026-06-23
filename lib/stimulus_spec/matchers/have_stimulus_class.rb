@@ -2,7 +2,16 @@
 
 module StimulusSpec
   module Matchers
+    # Asserts that rendered HTML contains a +data-{controller}-{name}-class+ attribute.
+    #
+    # @example Existence check
+    #   expect(response).to have_stimulus_class("search", "loading")
+    # @example Equality check
+    #   expect(response).to have_stimulus_class("search", "loading", "opacity-50")
     class HaveStimulusClass
+      # @param controller [String] controller name
+      # @param name [String] class name
+      # @param expected [String, nil] expected attribute value (omit for existence check)
       def initialize(controller, name, expected = nil)
         @controller = controller.to_s
         @name = name.to_s
@@ -10,11 +19,15 @@ module StimulusSpec
         @attr = "data-#{@controller}-#{@name}-class"
       end
 
+      # @param selector [String] CSS selector for the scope element
+      # @return [self]
       def within(selector)
         @scope = selector
         self
       end
 
+      # @param subject [#body, String] response object or HTML string
+      # @return [Boolean]
       def matches?(subject)
         @body = extract_body(subject)
         @doc = Nokogiri::HTML5.fragment(@body)
@@ -72,6 +85,10 @@ module StimulusSpec
       end
     end
 
+    # @param controller [String] controller name
+    # @param name [String] class name
+    # @param expected [String, nil] expected class value
+    # @return [HaveStimulusClass]
     def have_stimulus_class(controller, name, expected = nil)
       HaveStimulusClass.new(controller, name, expected)
     end

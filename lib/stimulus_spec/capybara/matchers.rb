@@ -9,6 +9,7 @@ require_relative "matchers/have_stimulus_outlet"
 
 module StimulusSpec
   module Capybara
+    # Matchers for system and feature specs (Capybara page objects).
     module Matchers
     end
   end

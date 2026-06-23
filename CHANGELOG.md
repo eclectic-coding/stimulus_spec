@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Full YARD documentation (`@param`, `@return`, `@example`) on all public methods and classes
+- `docs/cookbook.md` with common patterns: request specs, system specs, multi-controller, scoped matching, typed values, outlets
+- `.yardopts` configuration file
+
 ## [0.6.0] - 2026-06-23
 
 ### Added
