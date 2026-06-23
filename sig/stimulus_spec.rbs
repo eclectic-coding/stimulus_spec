@@ -81,6 +81,8 @@ module StimulusSpec
       def have_stimulus_action: (String descriptor) -> HaveStimulusAction
       def have_stimulus_target: (String controller, String target) -> HaveStimulusTarget
       def have_stimulus_value: (String controller, String name, ?String? expected) -> HaveStimulusValue
+      def have_stimulus_class: (String controller, String name, ?String? expected) -> HaveStimulusClass
+      def have_stimulus_outlet: (String controller, String outlet, ?String? selector) -> HaveStimulusOutlet
 
       class HaveStimulusController
         def initialize: (String name) -> void
@@ -111,6 +113,24 @@ module StimulusSpec
 
       class HaveStimulusValue
         def initialize: (String controller, String name, ?String? expected) -> void
+        def matches?: (untyped page) -> bool
+        def does_not_match?: (untyped page) -> bool
+        def failure_message: () -> String
+        def failure_message_when_negated: () -> String
+        def description: () -> String
+      end
+
+      class HaveStimulusClass
+        def initialize: (String controller, String name, ?String? expected) -> void
+        def matches?: (untyped page) -> bool
+        def does_not_match?: (untyped page) -> bool
+        def failure_message: () -> String
+        def failure_message_when_negated: () -> String
+        def description: () -> String
+      end
+
+      class HaveStimulusOutlet
+        def initialize: (String controller, String outlet, ?String? selector) -> void
         def matches?: (untyped page) -> bool
         def does_not_match?: (untyped page) -> bool
         def failure_message: () -> String
