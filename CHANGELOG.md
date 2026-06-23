@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-06-23
+
 ### Added
 
 - Capybara `have_stimulus_class` matcher (existence and equality modes) for system/feature specs
@@ -44,7 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `have_stimulus_action(descriptor)` matcher — full descriptor (`~=`) and shorthand without event (`*=`)
 - `have_stimulus_target(controller, target)` matcher — asserts `[data-{controller}-target~="target"]`
 
-[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.5.0
 [0.4.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.3.0
 [0.1.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.1.0
