@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-06-30
+
 ### Fixed
 
 - Guard matcher requires and `RSpec.configure` behind `defined?(RSpec::Core)` so the gem is safe to auto-require in non-test contexts (e.g. asset precompilation). Previously, a partial load of `rspec-expectations` or `rspec-mocks` could define the `RSpec` constant without `RSpec::Core`, causing a `NoMethodError` when `RSpec.configure` was called. Nokogiri is now also only required when RSpec::Core is present.
@@ -74,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `have_stimulus_action(descriptor)` matcher — full descriptor (`~=`) and shorthand without event (`*=`)
 - `have_stimulus_target(controller, target)` matcher — asserts `[data-{controller}-target~="target"]`
 
-[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.8.1...HEAD
+[0.8.1]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.8.1
 [0.8.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.8.0
 [0.7.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.7.0
 [0.6.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.6.0
