@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Guard matcher requires and `RSpec.configure` behind `defined?(RSpec::Core)` so the gem is safe to auto-require in non-test contexts (e.g. asset precompilation). Previously, a partial load of `rspec-expectations` or `rspec-mocks` could define the `RSpec` constant without `RSpec::Core`, causing a `NoMethodError` when `RSpec.configure` was called. Nokogiri is now also only required when RSpec::Core is present.
+
 ## [0.8.0] - 2026-06-23
 
 ### Added
