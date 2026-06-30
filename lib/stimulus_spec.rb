@@ -2,8 +2,6 @@
 
 require_relative "stimulus_spec/version"
 require_relative "stimulus_spec/configuration"
-require_relative "stimulus_spec/matchers"
-require_relative "stimulus_spec/capybara/matchers"
 
 # RSpec matchers for testing Stimulus controller wiring in Rails applications.
 #
@@ -62,7 +60,10 @@ module StimulusSpec
 end
 
 # :nocov:
-if defined?(RSpec)
+if defined?(RSpec::Core)
+  require_relative "stimulus_spec/matchers"
+  require_relative "stimulus_spec/capybara/matchers"
+
   RSpec.configure do |config|
     StimulusSpec.install_rspec_integration(config)
   end
