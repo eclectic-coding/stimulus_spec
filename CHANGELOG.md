@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.2] - 2026-08-11
+
 ### Changed
 
 - Recommend `require: false` in the Gemfile install snippet, with an explicit `require "stimulus_spec"` in `rails_helper.rb`/`spec_helper.rb`, matching the convention used by `shoulda-matchers` and `database_cleaner`.
@@ -80,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `have_stimulus_action(descriptor)` matcher — full descriptor (`~=`) and shorthand without event (`*=`)
 - `have_stimulus_target(controller, target)` matcher — asserts `[data-{controller}-target~="target"]`
 
-[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.8.1...HEAD
+[Unreleased]: https://github.com/eclectic-coding/stimulus_spec/compare/v0.8.2...HEAD
+[0.8.2]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.8.2
 [0.8.1]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.8.1
 [0.8.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.8.0
 [0.7.0]: https://github.com/eclectic-coding/stimulus_spec/releases/tag/v0.7.0
