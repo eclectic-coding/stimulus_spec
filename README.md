@@ -45,9 +45,18 @@ Add to your application's `Gemfile`:
 
 ```ruby
 group :test do
-  gem "stimulus_spec"
+  gem "stimulus_spec", require: false
 end
 ```
+
+Then require it explicitly in `spec/rails_helper.rb` (or `spec/spec_helper.rb`), after RSpec is loaded:
+
+```ruby
+require "rspec/rails"
+require "stimulus_spec"
+```
+
+`require: false` avoids Bundler auto-requiring the gem during app boot, before RSpec itself is loaded — the same convention used by `shoulda-matchers`, `database_cleaner`, and other RSpec extension gems.
 
 [Back to top](#stimulusspec)
 
@@ -55,7 +64,7 @@ end
 
 ### Rails + stimulus-rails (automatic)
 
-No setup needed. When `stimulus-rails` is in your bundle:
+Once required (see [Installation](#installation)), no further setup is needed. When `stimulus-rails` is in your bundle:
 
 - `StimulusSpec::Matchers` is automatically included in `type: :request` and `type: :controller` example groups
 - `StimulusSpec::Capybara::Matchers` is automatically included in `type: :system` and `type: :feature` example groups when `capybara` is also present

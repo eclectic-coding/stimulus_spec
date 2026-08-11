@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Recommend `require: false` in the Gemfile install snippet, with an explicit `require "stimulus_spec"` in `rails_helper.rb`/`spec_helper.rb`, matching the convention used by `shoulda-matchers` and `database_cleaner`.
+
 ## [0.8.1] - 2026-06-30
 
 ### Fixed
