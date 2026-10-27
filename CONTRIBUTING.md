@@ -7,8 +7,10 @@ Bug reports and pull requests are welcome. This guide covers everything you need
 ```bash
 git clone https://github.com/eclectic-coding/stimulus_spec.git
 cd stimulus_spec
-bin/setup          # installs gems
+bin/setup          # installs gems and enables the pre-push hook
 ```
+
+`bin/setup` points `core.hooksPath` at `.githooks`, so `bundle exec rake` (audit, lint, tests) runs before every push. Bypass in an emergency with `git push --no-verify`.
 
 ## Running the suite
 

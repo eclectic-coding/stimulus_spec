@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Tracked `.githooks/pre-push` hook that runs `bundle exec rake`, enabled by `bin/setup`.
+- Weekly scheduled bundler-audit workflow, Dependabot configuration, and auto-merge for patch/minor development dependency updates.
+
 ## [0.8.2] - 2026-08-11
 
 ### Changed
