@@ -59,7 +59,7 @@ module StimulusSpec
   end
 end
 
-# :nocov:
+# simplecov:disable
 if defined?(RSpec::Core)
   require_relative "stimulus_spec/matchers"
   require_relative "stimulus_spec/capybara/matchers"
@@ -68,4 +68,4 @@ if defined?(RSpec::Core)
     StimulusSpec.install_rspec_integration(config)
   end
 end
-# :nocov:
+# simplecov:enable
