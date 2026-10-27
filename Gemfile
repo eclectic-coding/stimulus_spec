@@ -10,7 +10,7 @@ gem "rake", "~> 13.0"
 group :development do
   gem "benchmark"
   gem "bundler-audit"
-  gem "rubocop", "~> 1.21"
+  gem "rubocop", "~> 1.92"
   gem "rubocop-rake"
 end
 
