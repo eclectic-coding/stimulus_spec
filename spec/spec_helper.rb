@@ -8,9 +8,9 @@ SimpleCov.start do
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::JSONFormatter
   ])
-  add_filter "/spec/"
-  add_filter "/version.rb"
-  track_files "lib/**/*.rb"
+  skip "/spec/"
+  skip "/version.rb"
+  cover "lib/**/*.rb"
   enable_coverage :branch
   minimum_coverage line: 100, branch: 100
 end
