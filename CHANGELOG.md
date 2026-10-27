@@ -7,16 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- Add `.ruby-version` pinning the development Ruby to 4.0.9.
-- Update to SimpleCov 1.x and replace deprecated `add_filter`, `track_files`, and `# :nocov:` with `skip`, `cover`, and `# simplecov:disable`/`enable`.
-
-### Added
-
-- Tracked `.githooks/pre-push` hook that runs `bundle exec rake`, enabled by `bin/setup`.
-- Weekly scheduled bundler-audit workflow, Dependabot configuration, and auto-merge for patch/minor development dependency updates.
-
 ## [0.8.2] - 2026-08-11
 
 ### Changed
