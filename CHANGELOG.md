@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add `.ruby-version` pinning the development Ruby to 4.0.9.
 - Update to SimpleCov 1.x and replace deprecated `add_filter`, `track_files`, and `# :nocov:` with `skip`, `cover`, and `# simplecov:disable`/`enable`.
 
 ### Added
