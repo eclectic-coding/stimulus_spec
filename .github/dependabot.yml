@@ -3,7 +3,9 @@ updates:
   - package-ecosystem: bundler
     directory: "/"
     schedule:
-      interval: weekly
+      # Daily, to match the daily scheduled audit: a weekly cadence left new
+      # advisories failing the audit for days before a fix PR appeared.
+      interval: daily
     # Also bump transitive dependencies (rack, nokogiri, addressable, ...).
     # By default Dependabot only updates gems listed in the Gemfile/gemspec,
     # which let patched-but-locked indirect gems fail the audit.
